@@ -14,7 +14,7 @@ go run app.go
 
 ## Todo
 
-* Signup Users
+* Signin: validate username and password in DB
 * Modules, packages, multi module
 * Authorization
 * MongoDB
