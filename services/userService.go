@@ -31,10 +31,6 @@ func CreateUser(c *gin.Context) {
 	})
 }
 
-func GetUser(c *gin.Context) {
-
-}
-
 func GetPasswordHash(password string) string {
 	bytePassword := []byte(password)
 	hash, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)

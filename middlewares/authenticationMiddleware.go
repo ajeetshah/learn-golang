@@ -7,7 +7,7 @@ import (
 
 func ValidateToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		services.ValidateToken(c)
+		services.ValidateJWT(c)
 		c.Next()
 	}
 }

@@ -29,11 +29,6 @@ func init() {
 	jwtKey = []byte(JWT_SECRET_KEY)
 }
 
-type Claims struct {
-	Email string `json:"email"`
-	jwt.RegisteredClaims
-}
-
 func Signin(c *gin.Context) {
 	var signInRequest models.SignInRequest
 	if err := c.ShouldBindJSON(&signInRequest); err != nil {
@@ -65,7 +60,7 @@ func Signin(c *gin.Context) {
 
 func GenerateJWT(email string) (string, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
-	claims := &Claims{
+	claims := &models.Claims{
 		Email: email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
@@ -75,7 +70,7 @@ func GenerateJWT(email string) (string, error) {
 	return token.SignedString(jwtKey)
 }
 
-func ValidateToken(c *gin.Context) {
+func ValidateJWT(c *gin.Context) {
 	bearerToken := c.Request.Header.Get("Authorization")
 	if bearerToken == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -100,7 +95,7 @@ func ValidateToken(c *gin.Context) {
 		c.Abort()
 		return
 	}
-	claims := &Claims{}
+	claims := &models.Claims{}
 	tkn, err := jwt.ParseWithClaims(reqToken, claims, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
