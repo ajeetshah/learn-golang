@@ -44,7 +44,7 @@ func DatabaseConnection() {
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	DB.AutoMigrate(models.Book{}, models.User{})
 	if err != nil {
-		log.Fatal("Error connecting to the database...", err)
+		log.Fatalln("Error connecting to the database...", err)
 	}
 	fmt.Println("Database connection successful...")
 }

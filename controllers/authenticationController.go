@@ -5,10 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func BasicAuth(c *gin.Context) {
-	services.BasicAuth(c)
-}
-
-func GetToken(c *gin.Context) {
-	services.GetToken(c)
+func Signin(c *gin.Context) {
+	services.Signin(c)
 }

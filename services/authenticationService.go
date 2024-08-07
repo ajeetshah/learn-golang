@@ -7,9 +7,12 @@ import (
 	"strings"
 	"time"
 
+	"example.com/learn-golang/database"
+	"example.com/learn-golang/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var JWT_SECRET_KEY string
@@ -27,28 +30,43 @@ func init() {
 }
 
 type Claims struct {
-	Username string `json:"username"`
+	Email string `json:"email"`
 	jwt.RegisteredClaims
 }
 
-func BasicAuth(c *gin.Context) {
-	gin.BasicAuth(gin.Accounts{
-		"admin": "secret",
-	})
-}
+func Signin(c *gin.Context) {
+	var signInRequest models.SignInRequest
+	if err := c.ShouldBindJSON(&signInRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.Abort()
+		return
+	}
 
-func GetToken(c *gin.Context) {
-	token, _ := GenerateJWT()
+	var user models.User
+	database.DB.Where("email=?", signInRequest.Email).Find(&user)
+	if user.ID == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad credentials"})
+		c.Abort()
+		return
+	}
+
+	if !IsPasswordCorrect(user.Password, signInRequest.Password) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad credentials"})
+		c.Abort()
+		return
+	}
+
+	token, _ := GenerateJWT(user.Email)
 	tokens = append(tokens, token)
 	c.JSON(http.StatusOK, gin.H{
 		"token": token,
 	})
 }
 
-func GenerateJWT() (string, error) {
+func GenerateJWT(email string) (string, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := &Claims{
-		Username: "username",
+		Email: email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
@@ -107,4 +125,9 @@ func ValidateToken(c *gin.Context) {
 		c.Abort()
 		return
 	}
+}
+
+func IsPasswordCorrect(hash, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }

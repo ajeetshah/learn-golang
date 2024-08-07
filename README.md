@@ -6,15 +6,14 @@
 2. Create a database named `learn-golang`
 3. Provide postgres connection details in [postgres.go](./database/postgres.go)
 4. Rename [.env.example](./.env.example) to `.env`
-5. Run the [app.go](./app.go) with the command below:
+5. Run the [main.go](./main.go) with the command below:
 ```sh
-go run app.go
+go run main.go
 ```
 
 
 ## Todo
 
-* Signin: validate username and password in DB
-* Modules, packages, multi module
 * Authorization
+* Modules, packages, multi module
 * MongoDB
