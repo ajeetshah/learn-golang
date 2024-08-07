@@ -2,26 +2,49 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"example.com/learn-golang/controllers"
 	"example.com/learn-golang/database"
 	"example.com/learn-golang/middlewares"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
+
+var (
+	PORT string
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalln("Coudn't load env file!!")
+	}
+
+	PORT = os.Getenv("PORT")
+}
 
 func main() {
 	fmt.Println("Starting application ...")
 	database.DatabaseConnection()
-
 	r := gin.Default()
-	r.POST("/login", controllers.BasicAuth, controllers.GetToken)
 
-	r.Use(middlewares.ValidateToken())
+	publicRoutes := r.Group("/public")
+	{
+		publicRoutes.POST("/sign-up", controllers.CreateUser)
+		publicRoutes.POST("/sign-in", controllers.BasicAuth, controllers.GetToken)
+	}
 
-	r.GET("/books/:id", controllers.ReadBook)
-	r.GET("/books", controllers.ReadBooks)
-	r.POST("/books", controllers.CreateBook)
-	r.PUT("/books/:id", controllers.UpdateBook)
-	r.DELETE("/books/:id", controllers.DeleteBook)
-	r.Run(":5000")
+	protectedRoutes := r.Group("/api")
+	protectedRoutes.Use(middlewares.ValidateToken())
+	{
+		protectedRoutes.GET("/books/:id", controllers.ReadBook)
+		protectedRoutes.GET("/books", controllers.ReadBooks)
+		protectedRoutes.POST("/books", controllers.CreateBook)
+		protectedRoutes.PUT("/books/:id", controllers.UpdateBook)
+		protectedRoutes.DELETE("/books/:id", controllers.DeleteBook)
+	}
+
+	r.Run(":" + PORT)
 }

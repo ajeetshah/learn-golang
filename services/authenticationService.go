@@ -1,16 +1,30 @@
 package services
 
 import (
+	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 )
 
-var jwtKey = []byte("my_secret_key")
+var JWT_SECRET_KEY string
+var jwtKey []byte
 var tokens []string
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalln("Coudn't load env file!!")
+	}
+
+	JWT_SECRET_KEY = os.Getenv("JWT_SECRET_KEY")
+	jwtKey = []byte(JWT_SECRET_KEY)
+}
 
 type Claims struct {
 	Username string `json:"username"`

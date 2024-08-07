@@ -1,6 +1,5 @@
 ## Learn Golang
 
-
 ## Start the developer environment
 
 1. Start a postgres database server
@@ -14,8 +13,7 @@ go run app.go
 
 ## Todo
 
-1. environment variables
-2. Modules, packages, multi module
-3. Signup Users
-4. Authorization
-5. MongoDB
+* Signup Users
+* Modules, packages, multi module
+* Authorization
+* MongoDB
