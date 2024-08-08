@@ -32,7 +32,7 @@ func main() {
 
 	publicRoutes := r.Group("/public")
 	{
-		publicRoutes.POST("/sign-up", controllers.CreateUser)
+		publicRoutes.POST("/sign-up", controllers.Signup)
 		publicRoutes.POST("/sign-in", controllers.Signin)
 	}
 

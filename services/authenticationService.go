@@ -45,7 +45,7 @@ func Signin(c *gin.Context) {
 		return
 	}
 
-	if !IsPasswordCorrect(user.Password, signInRequest.Password) {
+	if !IsPasswordMatch(user.Password, signInRequest.Password) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad credentials"})
 		c.Abort()
 		return
@@ -122,7 +122,7 @@ func ValidateJWT(c *gin.Context) {
 	}
 }
 
-func IsPasswordCorrect(hash, password string) bool {
+func IsPasswordMatch(hash, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
