@@ -5,14 +5,14 @@ import (
 
 	"example.com/learn-golang/database"
 	"example.com/learn-golang/models"
+	"example.com/learn-golang/utils"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(c *gin.Context) {
 	var user *models.User
 	err := c.ShouldBind(&user)
-	user.Password = GetPasswordHash(user.Password)
+	user.Password = utils.GetPasswordHash(user.Password)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -29,13 +29,4 @@ func CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "User created",
 	})
-}
-
-func GetPasswordHash(password string) string {
-	bytePassword := []byte(password)
-	hash, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
-	if err != nil {
-		return ""
-	}
-	return string(hash)
 }
