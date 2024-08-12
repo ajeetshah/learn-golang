@@ -26,7 +26,7 @@ func init() {
 	jwtKey = []byte(JWT_SECRET_KEY)
 }
 
-func GenerateJWT(email string, role string) (string, error) {
+func GenerateJWT(email string, role models.Role) (string, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := &models.Claims{
 		Email: email,
@@ -39,7 +39,7 @@ func GenerateJWT(email string, role string) (string, error) {
 	return token.SignedString(jwtKey)
 }
 
-func ValidateJWTAndRoleAndSetContext(c *gin.Context, eligibleRole string) {
+func ValidateJWTAndRoleAndSetContext(c *gin.Context, eligibleRole models.Role) {
 	bearerToken := c.Request.Header.Get("Authorization")
 	if bearerToken == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{

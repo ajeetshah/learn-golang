@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"example.com/learn-golang/constants"
 	"example.com/learn-golang/controllers"
 	"example.com/learn-golang/middlewares"
 	"github.com/gin-gonic/gin"
@@ -14,7 +15,7 @@ func SetupRoutes(r *gin.Engine) {
 	}
 
 	userRoutes := r.Group("/api")
-	userRoutes.Use(middlewares.ValidateJWTAndRoleAndSetContext("user"))
+	userRoutes.Use(middlewares.ValidateJWTAndRoleAndSetContext(constants.BasicRole))
 	{
 		userRoutes.GET("/books/:id", controllers.ReadBook)
 		userRoutes.GET("/books", controllers.ReadBooks)
@@ -24,7 +25,7 @@ func SetupRoutes(r *gin.Engine) {
 	}
 
 	adminRoutes := r.Group("/api/admin")
-	adminRoutes.Use(middlewares.ValidateJWTAndRoleAndSetContext("admin"))
+	adminRoutes.Use(middlewares.ValidateJWTAndRoleAndSetContext(constants.AdminRole))
 	{
 		adminRoutes.GET("/users", controllers.ReadUsers)
 	}

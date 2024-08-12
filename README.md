@@ -14,6 +14,6 @@ go run main.go
 ## Todo
 
 * Authorization
-* Use enum in roles
+* Admin role should be allowed to access user role's APIs as well
 * Modules, packages, multi module
 * MongoDB
