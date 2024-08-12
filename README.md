@@ -13,7 +13,10 @@ go run main.go
 
 ## Todo
 
-* Authorization
+* Authorization (casbin)
+* CORS
 * Admin role should be allowed to access user role's APIs as well
+* Logging (logrus)
+* Dockerize
 * Modules, packages, multi module
 * MongoDB
