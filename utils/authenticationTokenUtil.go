@@ -26,10 +26,11 @@ func init() {
 	jwtKey = []byte(JWT_SECRET_KEY)
 }
 
-func GenerateJWT(email string) (string, error) {
+func GenerateJWT(email string, role string) (string, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := &models.Claims{
 		Email: email,
+		Role:  role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},

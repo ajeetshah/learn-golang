@@ -33,7 +33,7 @@ func Signin(c *gin.Context) {
 		return
 	}
 
-	token, _ := utils.GenerateJWT(user.Email)
+	token, _ := utils.GenerateJWT(user.Email, user.Role)
 	tokens = append(tokens, token)
 	c.JSON(http.StatusOK, gin.H{
 		"token": token,
