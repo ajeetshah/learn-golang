@@ -50,7 +50,7 @@ func ReadBooks(c *gin.Context) {
 	res := database.DB.Find(&books)
 	if res.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error": errors.New("authors not found"),
+			"error": errors.New("books not found"),
 		})
 		return
 	}

@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"net/http"
 
 	"example.com/learn-golang/database"
@@ -28,5 +29,19 @@ func CreateUser(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "User created",
+	})
+}
+
+func ReadUsers(c *gin.Context) {
+	var users []models.User
+	res := database.DB.Find(&users)
+	if res.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": errors.New("users not found"),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"users": users,
 	})
 }

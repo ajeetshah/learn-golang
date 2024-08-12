@@ -6,20 +6,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Routes(r *gin.Engine) {
+func SetupRoutes(r *gin.Engine) {
 	publicRoutes := r.Group("/public")
 	{
 		publicRoutes.POST("/sign-up", controllers.Signup)
 		publicRoutes.POST("/sign-in", controllers.Signin)
 	}
 
-	protectedRoutes := r.Group("/api")
-	protectedRoutes.Use(middlewares.ValidateTokenAndSetContext())
+	userRoutes := r.Group("/api")
+	userRoutes.Use(middlewares.ValidateJWTAndRoleAndSetContext("user"))
 	{
-		protectedRoutes.GET("/books/:id", controllers.ReadBook)
-		protectedRoutes.GET("/books", controllers.ReadBooks)
-		protectedRoutes.POST("/books", controllers.CreateBook)
-		protectedRoutes.PUT("/books/:id", controllers.UpdateBook)
-		protectedRoutes.DELETE("/books/:id", controllers.DeleteBook)
+		userRoutes.GET("/books/:id", controllers.ReadBook)
+		userRoutes.GET("/books", controllers.ReadBooks)
+		userRoutes.POST("/books", controllers.CreateBook)
+		userRoutes.PUT("/books/:id", controllers.UpdateBook)
+		userRoutes.DELETE("/books/:id", controllers.DeleteBook)
+	}
+
+	adminRoutes := r.Group("/api/admin")
+	adminRoutes.Use(middlewares.ValidateJWTAndRoleAndSetContext("admin"))
+	{
+		adminRoutes.GET("/users", controllers.ReadUsers)
 	}
 }

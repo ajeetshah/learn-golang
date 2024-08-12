@@ -39,7 +39,7 @@ func GenerateJWT(email string, role string) (string, error) {
 	return token.SignedString(jwtKey)
 }
 
-func ValidateJWTAndSetRole(c *gin.Context) {
+func ValidateJWTAndRoleAndSetContext(c *gin.Context, eligibleRole string) {
 	bearerToken := c.Request.Header.Get("Authorization")
 	if bearerToken == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -85,6 +85,14 @@ func ValidateJWTAndSetRole(c *gin.Context) {
 	if !tkn.Valid {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "unauthorized",
+		})
+		c.Abort()
+		return
+	}
+
+	if claims.Role != eligibleRole {
+		c.JSON(http.StatusForbidden, gin.H{
+			"message": "not allowed",
 		})
 		c.Abort()
 		return

@@ -14,5 +14,6 @@ go run main.go
 ## Todo
 
 * Authorization
+* Use enum in roles
 * Modules, packages, multi module
 * MongoDB

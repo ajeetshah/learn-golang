@@ -25,6 +25,6 @@ func main() {
 	fmt.Println("Starting application ...")
 	database.DatabaseConnection()
 	r := gin.Default()
-	routes.Routes(r)
+	routes.SetupRoutes(r)
 	r.Run(":" + PORT)
 }
