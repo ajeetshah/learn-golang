@@ -14,7 +14,7 @@ func Routes(r *gin.Engine) {
 	}
 
 	protectedRoutes := r.Group("/api")
-	protectedRoutes.Use(middlewares.ValidateTokenAndSetROle())
+	protectedRoutes.Use(middlewares.ValidateTokenAndSetContext())
 	{
 		protectedRoutes.GET("/books/:id", controllers.ReadBook)
 		protectedRoutes.GET("/books", controllers.ReadBooks)
