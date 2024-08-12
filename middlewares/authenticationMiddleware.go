@@ -5,9 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ValidateToken() gin.HandlerFunc {
+func ValidateTokenAndSetROle() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		utils.ValidateJWT(c)
+		utils.ValidateJWTAndSetRole(c)
 		c.Next()
 	}
 }
