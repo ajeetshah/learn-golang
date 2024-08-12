@@ -50,7 +50,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"admin1@example.com\",\n    \"password\": \"password\",\n    \"role\": \"admin\"\n}",
+					"raw": "{\n    \"email\": \"user10@example.com\",\n    \"password\": \"password\",\n    \"role\": \"admin_role\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -296,7 +296,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"admin1@example.com\",\n    \"password\": \"password\"\n}",
+					"raw": "{\n    \"email\": \"user1@example.com\",\n    \"password\": \"password\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
