@@ -2,10 +2,10 @@
 
 ## Start the developer environment
 
-1. Install (use [docker](./compose.yaml) or install natively) Postgres Database server
-2. Start the postgres database server
-3. Create a database named `learn-golang`
-4. Rename [.env.example](./.env.example) to `.env` and provide the variable values
+1. Install (use [docker](./compose.yaml) or install natively) Postgres Database server.
+2. Start the postgres database server.
+3. Create a database named `learn-golang`.
+4. Create a new file `.env` and populate it referring the [.env.example](./.env.example).
 5. Run the [main.go](./main.go) with the command below:
 ```sh
 go run main.go
